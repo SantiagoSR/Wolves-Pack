@@ -26,16 +26,25 @@ class Handler(BaseHTTPRequestHandler):
     def _add_Information(self, data):
         self.send_response(200)
         self.end_headers()
-        info = "The data of your files was Upload"
-        response = info.encode('ascii')
-        self.wfile.write(response)
+        #info = "The data of your files was Upload"
+        #response = info.encode('ascii')
+        #self.wfile.write(response)
         #print("Los datos que llegaron son : ")
         #print(data)
         if data[0] in data_base :
-            data_base[data[0]].append(data[1])
+            if data_base[data[0]].find(data[1]) == -1:
+                print("--------Adding new Peer to a file--------")
+                data_base[data[0]] = data_base[data[0]]+ f",{data[1]}"
+            else :
+                message = "\nYou already upload this file"
+                response = message.encode('ascii')
+                self.wfile.write(response)
         else :
             data_base[data[0]] = data[1]
-        print("----------------------DATA BASE-------------")
+            info = "The file was Upload"
+            response = info.encode('ascii')
+            self.wfile.write(response)
+        print("--------DATA BASE--------")
         print(data_base)
 
     def do_GET(self):
@@ -87,3 +96,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
