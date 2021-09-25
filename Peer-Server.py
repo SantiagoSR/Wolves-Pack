@@ -16,7 +16,7 @@ class Handler(BaseHTTPRequestHandler):
         if data in data_base:
             value = data_base.get(data)
         else :
-            value = "There is not a peer with that dataThere is not a peer with that data"
+            value = "There is not a peer with that data"
         print(value)
         self.send_response(200)
         self.end_headers()
@@ -24,7 +24,19 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(response)
 
     def _add_Information(self, data):
-        print(data)
+        self.send_response(200)
+        self.end_headers()
+        info = "The data of your files was Upload"
+        response = info.encode('ascii')
+        self.wfile.write(response)
+        #print("Los datos que llegaron son : ")
+        #print(data)
+        if data[0] in data_base :
+            data_base[data[0]].append(data[1])
+        else :
+            data_base[data[0]] = data[1]
+        print("----------------------DATA BASE-------------")
+        print(data_base)
 
     def do_GET(self):
         self.send_response(200)
@@ -40,20 +52,31 @@ class Handler(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)
         data = post_data.decode("utf_8")
         print(data)
+        split_data = urllib.parse.unquote_plus(data).split('&')
+        print("--------------SPLIT DATA---------------")
+        print(split_data)
+        peer_ip = []
+        print("----------------Entro al for-------------")
+        for i in split_data:
+            print(i)
+            peer_ip.append(i.split('=')[1])
+        print(peer_ip)
+
         info = urllib.parse.unquote_plus(data).split('=')[0]
         url = urllib.parse.unquote_plus(data).split('=')[1]
-        print(info)
+        #print("SPLIT : ")
+        #print(info)
         if info == 'upload':
-            self._add_Information(url)
-        print("-----------------------------//-----------")
-        print(url)
-        self._set_response(url)
-        self.wfile.write("\n POST request for {}".format(self.path).encode('utf-8'))
+            self._add_Information(peer_ip)
+        else :
+            print(url)
+            self._set_response(url)
+        #self.wfile.write("\n POST request for {}".format(self.path).encode('utf-8'))
 
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     """Handle requests in a separate thread."""
 
-data_base = {'datos.txt' : 'url'}
+data_base = {}
 
 def main():
     global data_base
