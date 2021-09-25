@@ -12,15 +12,17 @@ def FILE(data):
     r = requests.post('http://ec2-52-91-144-8.compute-1.amazonaws.com:3000', data = {'url': data})
     print(f"{r.text}")
 def UPLOAD(data):
-    if os.getcwd()[-4] != 'data': 
-        os.chdir(os.getcwd()+'/data')
-    external_ip =str(urllib.request.urlopen('https://ident.me').read().decode('utf8'))
-    dataxd = data #os.listdir()
-    print(dataxd)
-    print(external_ip)
-    #data = 'datos.txt'
-    r = requests.post('http://ec2-52-91-144-8.compute-1.amazonaws.com:3000', data = {'upload': dataxd, 'ip' : external_ip})
-    print(f"{r.text}")
+    if not(os.path.isfile(data)) :
+        print("This file dont exist in your data folder")
+    else :
+        URL = "52.91.144.8"
+        external_ip =str(urllib.request.urlopen('https://ident.me').read().decode('utf8'))
+        dataxd = data #os.listdir()
+        print(dataxd)
+        print(external_ip)
+        #data = 'datos.txt'
+        r = requests.post('http://'+ URL +':3000', data = {'upload': dataxd, 'ip' : external_ip})
+        print(f"{r.text}")
 
 class ShortyShell(cmd.Cmd):
     intro = "Welcome to shorty, the URL shortner. \n Type help COMMAND_NAME to see further information about the command. \n Type bye to leave."
@@ -35,6 +37,18 @@ class ShortyShell(cmd.Cmd):
         UPLOAD(str(args))
 
 def main():
+    if os.path.isdir("./data"):
+        print("Directory alredy created")
+    else :
+        # Directory
+        directory = "data"
+        # Parent Directory path
+        parent_dir = os.getcwd()
+        # Path
+        path = os.path.join(parent_dir, directory)
+        os.mkdir(path)
+        print("Directory '% s' created" % directory)
+    os.chdir(os.getcwd()+'/data')
     shell = ShortyShell()
     try:
         shell.cmdloop()
