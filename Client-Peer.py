@@ -5,11 +5,8 @@ import os
 
 
 def FILE(data):
-    #global STATUS_ADDR
-    #STATUS_ADDR = "http://ec2-3-85-36-56.compute-1.amazonaws.com:3000"
-    #r = requests.post('http://ec2-3-85-36-56.compute-1.amazonaws.com:3000', data = {'url': url})
-    #print(f"{r}")
-    r = requests.post('http://ec2-52-91-144-8.compute-1.amazonaws.com:3000', data = {'url': data})
+    URL = "52.91.144.8"
+    r = requests.post('http://'+ URL +':3000', data = {'url': data})
     print(f"{r.text}")
 def UPLOAD(data):
     if not(os.path.isfile(data)) :
@@ -17,11 +14,11 @@ def UPLOAD(data):
     else :
         URL = "52.91.144.8"
         external_ip =str(urllib.request.urlopen('https://ident.me').read().decode('utf8'))
-        dataxd = data #os.listdir()
-        print(dataxd)
+        file_name = data #os.listdir()
+        print(file_name)
         print(external_ip)
         #data = 'datos.txt'
-        r = requests.post('http://'+ URL +':3000', data = {'upload': dataxd, 'ip' : external_ip})
+        r = requests.post('http://'+ URL +':3000', data = {'upload': file_name, 'ip' : external_ip})
         print(f"{r.text}")
 
 class ShortyShell(cmd.Cmd):
