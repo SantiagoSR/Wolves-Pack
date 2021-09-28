@@ -5,14 +5,25 @@ import os
 
 
 def FILE(data):
-    URL = "52.91.144.8"
+    URL = "35.168.166.112"
     r = requests.post('http://'+ URL +':3000', data = {'url': data})
     print(f"{r.text}")
+    print(r.text)
+    external_ip =str(urllib.request.urlopen('https://ident.me').read().decode('utf8'))
+    with requests.post('http://'+ r.text +':3000', data = {'file': data, 'peerIp': external_ip}) as r:
+        r.raise_for_status()
+        with open(data, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192): 
+                # If you have chunk encoded response uncomment if
+                # and set chunk_size parameter to None.
+                #if chunk: 
+                f.write(chunk)
+
 def UPLOAD(data):
     if not(os.path.isfile(data)) :
         print("This file dont exist in your data folder")
     else :
-        URL = "52.91.144.8"
+        URL = "35.168.166.112"
         external_ip =str(urllib.request.urlopen('https://ident.me').read().decode('utf8'))
         file_name = data #os.listdir()
         print(file_name)
