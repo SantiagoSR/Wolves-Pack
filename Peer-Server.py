@@ -47,6 +47,9 @@ class Handler(BaseHTTPRequestHandler):
         print("--------DATA BASE--------")
         print(data_base)
 
+    def _upload_file(self, data):
+        requests.post("http://ec2-54-226-205-132.compute-1.amazonaws.com:3000", {'data': data})
+
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
@@ -73,12 +76,13 @@ class Handler(BaseHTTPRequestHandler):
 
         info = urllib.parse.unquote_plus(data).split('=')[0]
         url = urllib.parse.unquote_plus(data).split('=')[1]
-        #print("SPLIT : ")
-        #print(info)
+        print("SPLIT : ")
+        print(info)
         if info == 'upload':
             self._add_Information(peer_ip)
         else :
             print(url)
+            #self._upload_file(data)
             self._set_response(url)
         #self.wfile.write("\n POST request for {}".format(self.path).encode('utf-8'))
 
