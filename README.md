@@ -45,7 +45,8 @@ La estructura general del protocolo se explica en el siguiente diagrama.
 
 Los mensajes recibidos son todos muy similares en estructura, contienen un output que representa la información que se le debe mostrar al cliente. Este output es una string. Siempre que se envía un mensaje, se debe esperar un mensaje de respuesta.
 
-Los errores en ShortyShell se manejan mediante la captura de excepciones, hay principalmente tres tipos de error, error de conexión y error en tipo de dato. Los errores de conexion se manejan levantando una excepción de tipo RuntimeError("socket connection broken"), no retornan nada al cliente. Los mensajes de falla en tipo de dato se manejan capturando la excepción y retornando al usuario un mensaje de error que quiere decir que alguno de los valores ingresados no se encuentra en la forma correcta.A continuación hay una tabla con cada error y los mensajes que imprime en la consola interactiva.
+Los errores en ShortyShell se manejan mediante la captura de excepciones, hay principalmente dos tipos de error, error de conexión y error en tipo de dato. Los errores de conexion se manejan levantando una excepción de tipo RuntimeError("socket connection broken"), no retornan nada al cliente. Los mensajes de falla en tipo de dato se manejan capturando la excepción y retornando al usuario un mensaje de error que quiere decir que alguno de los valores ingresados no se encuentra en la forma correcta. A continuación hay una tabla con cada error y los mensajes que imprime en la consola interactiva.
+
 | Error | Mensaje   |
 |------|------|
 | Error de conexión | Peer {ip} no se encuentra disponible : Error : <code> Intentando otro Peer   |
@@ -53,7 +54,7 @@ Los errores en ShortyShell se manejan mediante la captura de excepciones, hay pr
 
 ### 4. Tolerancia a fallos
 
-En el sistema cualquier momento cualquier instancia puede caer y esta no bloqueará el funcionamiento completo del sistema. Ademas, al ser redudante pues cada cliente puede tener archivos posiblemente repetidos con otro cliente, en caso de ocurrir alguna falla con un archivo de un cliente, esta solicitud puede ser cumplida por otro cliente que posea al mismo archivo.
+En el sistema cualquier momento cualquier instancia puede caer y esta no bloqueará el funcionamiento completo del sistema. Ademas, al ser redudante pues cada cliente puede tener archivos posiblemente repetidos con otro cliente, en caso de ocurrir alguna falla con un archivo de un cliente, esta solicitud puede ser cumplida por otro cliente que posea al mismo archivo. Para evitar que los errores de conección afecten el desempeño de nuestro programa, al menos en la mayoría de las ocaciones, se implementó una metodología de ensayo y error, que intenta descargar los archivos de todos los peers que tengan ese archivo registrado antes de declarar un error fatal.
 
 ### 5. Regla de protocolo
 
