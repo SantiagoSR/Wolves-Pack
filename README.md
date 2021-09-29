@@ -28,9 +28,9 @@ Finalmente, algunas consideraciones adicionales sobre el servicio. El comportami
 ShortyShell utiliza una misma estructura de mensaje para todas sus comunicaciones;
 | Mensaje | Descripción   |
 |------|------|
-| FILE <FILE_NAME> | Busca un archivo y lo descarga  |
-| UPLOAD <FILE_NAME> | Registra un archivo al servidor |
-| bye | termina la sesión |
+| FILE <FILE_NAME> | Busca todos las instancias de un archivo, e intenta descargarlo en cada uno de los peers hasta ser exitoso. Una vez descargado, lo registra en el servidor central.  |
+| UPLOAD <FILE_NAME> | Registra un archivo al servidor, donde es almacenado en un diccionario. |
+| bye | Termina la sesión. |
 
 Los mensajes que puede enviar el cliente están definidos de la siguiente forma. En la tabla verá significado semántico en la columna de procedimiento, mientras que en la columna de URL encontrará el URL correspondiente, en la que es muy fácil deducir a que se refiere el código y por ende no se pondrá entre paréntesis su significado. Todas estas peticiones de cliente son independientes entre si y el servidor no requiere mantener información de estado para manejar estas.
 
