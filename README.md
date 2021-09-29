@@ -45,11 +45,11 @@ La estructura general del protocolo se explica en el siguiente diagrama.
 
 Los mensajes recibidos son todos muy similares en estructura, contienen un output que representa la información que se le debe mostrar al cliente. Este output es una string. Siempre que se envía un mensaje, se debe esperar un mensaje de respuesta.
 
-Los errores en ShortyShell se manejan mediante la captura de excepciones, hay principalmente tres tipos de error, error de conección y error en tipo de dato. Los errores de coneccion se manejan levantando una excepción de tipo RuntimeError("socket connection broken"), no retornan nada al cliente. Los mensajes de falla en tipo de dato se manejan capturando la excepción y retornando al usuario un mensaje de error que quiere decir que alguno de los valores ingresados no se encuentra en la forma correcta.A continuación hay una tabla con cada error y los mensajes que imprime en la consola interactiva.
+Los errores en ShortyShell se manejan mediante la captura de excepciones, hay principalmente tres tipos de error, error de conexión y error en tipo de dato. Los errores de conexion se manejan levantando una excepción de tipo RuntimeError("socket connection broken"), no retornan nada al cliente. Los mensajes de falla en tipo de dato se manejan capturando la excepción y retornando al usuario un mensaje de error que quiere decir que alguno de los valores ingresados no se encuentra en la forma correcta.A continuación hay una tabla con cada error y los mensajes que imprime en la consola interactiva.
 | Error | Mensaje   |
 |------|------|
-| Error de conexión | 400  |
-| Error de comando| Lo sentimos, no estamos esperando <code>|
+| Error de conexión | Peer {ip} no se encuentra disponible : Error : <code> Intentando otro Peer   |
+| Error de comando| Lo sentimos, no estamos esperando <code>|  
 
 ### 4. Tolerancia a fallos
 
@@ -59,7 +59,7 @@ En el sistema cualquier momento cualquier instancia puede caer y esta no bloquea
 
 Para la comunicacion entre los diferentes nodos y cliente, se utilizó un protocolo básico de comunicación construido sobre HTTP (concretamente las librerías request y http.server de python). Este mecanismo nos permite cominicarnos y sincronizar las acciones entre los diferentes nodos, manteniendo la ilusión de union para el cliente, es decir, el sistema a pesar de estar distribuido se comporta como si fuese un solo monolito de cara al usuario final. En nuestra arquitectura de comunicacion, estamos usando el protocolo HTTP, que se está soportado sobre los servicios de conexión TCP/IP. El protocolo funciona de la siguiente manera: un proceso servidor escucha en un puerto de comuniaciones, y espera las solicitudes de conexión de los clientes Web. una vez se establece la conexión, el protocolo se encarga de mantener la comunicación. El protocolo se basa en operaciones solicitud/respuesta. 
   
-Otra decisión de arquitectura relevante es que los servidores de cara al cliente, pueden ser internamente clientes dentro de nuestro sistema. Por ejemplo, el cliente accede al servidor central que sirve com intermediario, el servidor central hace peticiones como cliente a otros peers que tiene el archivo solicitados.
+Otra decisión de arquitectura relevante es que los servidores de cara al cliente, pueden ser internamente clientes dentro de nuestro sistema. Por ejemplo, el cliente accede al servidor central que sirve como intermediario, el servidor central hace peticiones como cliente a otros peers que tiene el archivo solicitados.
   
 A gran escala, en la totalidad del proyecto, únicamente se implementaron las palabras clave GET y POST, con estas se puedo estructurar completamente el protocolo de comunicación, ya que permiten cubrir todos los casos de uso de nuestro sistema como está planteado actualmetne.
 
