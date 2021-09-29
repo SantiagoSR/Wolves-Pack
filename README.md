@@ -54,9 +54,7 @@ Los errores en ShortyShell se manejan mediante la captura de excepciones, hay pr
 
 ### 4. Tolerancia a fallos
 
-TTL
-En cualquier momento cualquier instancia puede caer y esta no bloqueará el funcionamiento completo del sistema.
-Redundancia: Al cada base de datos tener la totalidad de los archivos y cada servidor tener la totalidad de la lógica de negocios, cualquiera de estos puede funcionar de manera independiente, generando tolerancia a particiones.
+En el sistema cualquier momento cualquier instancia puede caer y esta no bloqueará el funcionamiento completo del sistema. Ademas, al ser redudante pues cada cliente puede tener archivos posiblemente repetidos con otro cliente, en caso de ocurrir alguna falla con un archivo de un cliente, esta solicitud puede ser cumplida por otro cliente que posea al mismo archivo.
 
 ### 5. Regla de protocolo
 
