@@ -4,7 +4,7 @@ import sys
 import threading
 import urllib.parse
 import requests
-
+import json
 
 class Handler(BaseHTTPRequestHandler):
 
@@ -35,12 +35,16 @@ class Handler(BaseHTTPRequestHandler):
             if data_base[data[0]].find(data[1]) == -1:
                 print("--------Adding new Peer to a file--------")
                 data_base[data[0]] = data_base[data[0]]+ f",{data[1]}"
+                with open('data.json', 'w', encoding='utf-8') as f:
+                    json.dump(data_base, f, ensure_ascii=False, indent=4)
             else :
                 message = "\nYou already upload this file"
                 response = message.encode('ascii')
                 self.wfile.write(response)
         else :
             data_base[data[0]] = data[1]
+            with open('data.json', 'w', encoding='utf-8') as f:
+                json.dump(data_base, f, ensure_ascii=False, indent=4)
             info = "The file was Upload"
             response = info.encode('ascii')
             self.wfile.write(response)
@@ -65,10 +69,10 @@ class Handler(BaseHTTPRequestHandler):
         data = post_data.decode("utf_8")
         print(data)
         split_data = urllib.parse.unquote_plus(data).split('&')
-        print("--------------SPLIT DATA---------------")
-        print(split_data)
+        #print("--------------SPLIT DATA---------------")
+        #print(split_data)
         peer_ip = []
-        print("----------------Entro al for-------------")
+        #print("----------------Entro al for-------------")
         for i in split_data:
             print(i)
             peer_ip.append(i.split('=')[1])
@@ -76,8 +80,8 @@ class Handler(BaseHTTPRequestHandler):
 
         info = urllib.parse.unquote_plus(data).split('=')[0]
         url = urllib.parse.unquote_plus(data).split('=')[1]
-        print("SPLIT : ")
-        print(info)
+        #print("SPLIT : ")
+        #print(info)
         if info == 'upload':
             self._add_Information(peer_ip)
         else :
@@ -93,6 +97,10 @@ data_base = {}
 
 def main():
     global data_base
+    with open('data.json', 'r') as fp:
+        data_base = json.load(fp)
+    print("------------Iniciando con base de datos anterior------------")
+    print(data_base)
     PORT = 3000
     server = ThreadedHTTPServer(('',PORT), Handler)
     print('Server running on port ', PORT)
@@ -100,4 +108,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
