@@ -12,14 +12,13 @@ Proyecto 1 de telematica
 
 El presente es un servicio de transferencia de archivos. Esto se hizo con la intención de que el usuario pueda enviar y recibir archivos a otros clientes que requieran de estos. Para la arquitectura simulamos una red peer to peer centralizada. Todas las transacciones se hacen a través de un único servidor que sirve de punto de enlace entre dos nodos y que, a la vez, almacena y distribuye los nodos donde se almacenan los contenidos.
 
-
-Para efectos de facilidad de uso se desarrolló una shell interactiva llamada ShortyShell para el cliente, en la que se implementaron además de los comandos básicos de ShortyShell comandos de ayuda para el usuario. Estos comandos de ayuda listan la sintaxis correcta de cada una de estas operaciones y explican lo que cada una hace. Las instrucciones para llamar a estas ayudas son visibles cuando el cliente accede a ShortyShell.
-
 Según el teorema de CAP o Conjetura de Brewer nuestro sistema cumplira con la con ser consistente y altamente disponible (cualquier petición recibe una respuesta no errónea). 
 
 Usamos un tipo de almacenamiento tipo WORM (Write once, read many), es decir, los archivos cargados ya no pueden ser borrados, regrabados o sobre-escritos posteriormente. La importancia de esto es que garantizan la integridad y conservación de la información allí guardada. 
 
 Dentro de las caracteristicas el sistema es transparente de acceso cuando se establece una conexión se comunica con el servidor central. Por lo tanto, el usuario percibirá que el servidor es un único sistema y no se comunica con varios componentes separados. Transparente a replicaciones, Aunque los archivos estén copiados en diferentes servidores, el usuario es agnóstico a esto. El sistema es escalable, en cualquier momento se pueden crear más instancias del servidor central y comunicarlas mediante un balanceador de cargas, estableciendo algo similar a una red peer to peer híbrida, pero creemos que esto está fuera del alcance de nuestro proyecto. Nadie se encarga de mantener todos los archivos, y por ende todas las peticiones largas, por lo que es más rápido, sin embargo, el servidor central es un cuello de botella significativo. Debido a restricciones de recursos solo se crearán a lo sumo un servidor central y 4 peers.
+
+Para efectos de facilidad de uso se desarrolló una shell interactiva llamada ShortyShell para el cliente, en la que se implementaron además de los comandos básicos de ShortyShell comandos de ayuda para el usuario. Estos comandos de ayuda listan la sintaxis correcta de cada una de estas operaciones y explican lo que cada una hace. Las instrucciones para llamar a estas ayudas son visibles cuando el cliente accede a ShortyShell.
 
 Finalmente, algunas consideraciones adicionales sobre el servicio. El comportamiento del servidor se presta para manejar a multiples clientes de manera concurrente por medio de threads, cada cliente puede conectarse y desconectarse del servidor en el momento que lo considere. Por último, para garantizar la transparencia en operaciones. 
 
