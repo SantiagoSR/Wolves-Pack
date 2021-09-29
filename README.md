@@ -5,12 +5,12 @@ Proyecto 1 de telematica
 
 - Isabel Piedrahita
 - Santiago Santacruz
-- Duvan andres ramirez
+- Duvan Ramirez
 
 
 ## 1. Especificación del Servicio
 
-El presente es un servicio de transferencia de archivos. Esto se hizo con la intención de que el usuario pueda enviar y recibir archivos a otros clientes que requieran de estos
+El presente es un servicio de transferencia de archivos. Esto se hizo con la intención de que el usuario pueda enviar y recibir archivos a otros clientes que requieran de estos. Para la arquitectura simulamos una red peer to peer centralizada. Todas las transacciones se hacen a través de un único servidor que sirve de punto de enlace entre dos nodos y que, a la vez, almacena y distribuye los nodos donde se almacenan los contenidos.
 
 
 Para efectos de facilidad de uso se desarrolló una shell interactiva llamada ShortyShell para el cliente, en la que se implementaron además de los comandos básicos de ShortyShell comandos de ayuda para el usuario. Estos comandos de ayuda listan la sintaxis correcta de cada una de estas operaciones y explican lo que cada una hace. Las instrucciones para llamar a estas ayudas son visibles cuando el cliente accede a ShortyShell.
@@ -50,13 +50,13 @@ Los errores en ShortyShell se manejan mediante la captura de excepciones, hay pr
 
 Para la comunicacion entre los diferentes nodos y cliente, se utilizó un protocolo básico de comunicación construido sobre HTTP (concretamente las librerías request y http.server de python). Este mecanismo nos permite cominicarnos y sincronizar las acciones entre los diferentes nodos, manteniendo la ilusión de union para el cliente, es decir, el sistema a pesar de estar distribuido se comporta como si fuese un solo monolito de cara al usuario final. En nuestra arquitectura de comunicacion, estamos usando el protocolo HTTP, que se está soportado sobre los servicios de conexión TCP/IP. El protocolo funciona de la siguiente manera: un proceso servidor escucha en un puerto de comuniaciones, y espera las solicitudes de conexión de los clientes Web. una vez se establece la conexión, el protocolo se encarga de mantener la comunicación. El protocolo se basa en operaciones solicitud/respuesta. 
   
-Otra decisión de arquitectura relevante es que los servidores de cara al cliente, pueden ser internamente clientes dentro de nuestro sistema. Por ejemplo, el cliente accede al servidor SHORTY que acorta su URL, sin embargo SHORTY hace peticiones como cliente a COUNT, para registrar la transacción realizada. Estas comunicaciones internas también se implementaron con el mismo protocolo.
+Otra decisión de arquitectura relevante es que los servidores de cara al cliente, pueden ser internamente clientes dentro de nuestro sistema. Por ejemplo, el cliente accede al servidor central que sirve com intermediario, el servidor central hace peticiones como cliente a otros peers que tiene el archivo solicitados.
   
 A gran escala, en la totalidad del proyecto, únicamente se implementaron las palabras clave GET y POST, con estas se puedo estructurar completamente el protocolo de comunicación, ya que permiten cubrir todos los casos de uso de nuestro sistema como está planteado actualmetne.
 
 ### 5. Etapas de transacción del protocolo
 
-  1. Un usuario solicita un servicio (REQUESTS, SHORT, QR, STATUS). La solicitud del servicio genera una URL con la informacion de la petición.
+  1. Un usuario solicita un servicio (FILE, UPLOAD). La solicitud del servicio genera una URL con la informacion de la petición.
   
   2. El servidor identifica el protocolo de acceso, la dirección DNS, el puerto y el objeto requerido del servidor.
   
